@@ -2,8 +2,9 @@
 
 namespace LongTailVentures;
 
-use PDO;
 use Exception;
+use PDO;
+use PDOException;
 
 class DatabaseClient
 {
