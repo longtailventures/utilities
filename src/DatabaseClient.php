@@ -184,10 +184,15 @@ class DatabaseClient
      * @param int $maxNumberOfSecondsToCheck
      * How many seconds to wait for the replica connection to be caught up with its master connection.
      * Default is 1200 (20 minutes)
+     * 
+     * @param int $secondsBehindMasterThreshold
+     * How many seconds behind master is the replica connection is considered 'ready'. Default is 0
      *
      * @return boolean $isReady
      */
-    public static function isReplicaConnectionReady($replicaConnection, $maxNumberOfSecondsToCheck = 1200)
+    public static function isReplicaConnectionReady($replicaConnection, 
+    						    $maxNumberOfSecondsToCheck = 1200,
+    						    $secondsBehindMasterThreshold = 0)
     {
         $isReady = true;
         $numberOfSeconds = 0;
@@ -200,7 +205,7 @@ class DatabaseClient
             while ($row = $result->fetch(PDO::FETCH_ASSOC))
                 $secondsBehindMaster = $row['Seconds_Behind_Master'];
 
-            $isReady = $secondsBehindMaster == 0;
+            $isReady = $secondsBehindMaster == $secondsBehindMasterThreshold;
 
             if (!$isReady)
             {
