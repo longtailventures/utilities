@@ -205,7 +205,7 @@ class DatabaseClient
             while ($row = $result->fetch(PDO::FETCH_ASSOC))
                 $secondsBehindMaster = $row['Seconds_Behind_Master'];
 
-            $isReady = $secondsBehindMaster == $secondsBehindMasterThreshold;
+            $isReady = $secondsBehindMaster <= $secondsBehindMasterThreshold;
 
             if (!$isReady)
             {
