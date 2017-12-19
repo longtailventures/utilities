@@ -72,7 +72,7 @@ class GraphiteClient
 
         try
         {
-            $fp = fsockopen("udp://" . self::$_host, self::$_port, $errno, $errstr);
+            $fp = fsockopen("udp://" . $this->_host, $this->_port, $errno, $errstr);
             if (!$fp)
                 return;
             $notes = base64_encode($notes);
@@ -86,7 +86,7 @@ class GraphiteClient
         }
     }
 
-    public static function sendCounter($metric, $value, $sampleRate = 1)
+    public function sendCounter($metric, $value, $sampleRate = 1)
     {
         if ($sampleRate < 1)
         {
@@ -113,7 +113,7 @@ class GraphiteClient
      * @param array $data array of timers/counters to send
      * @param float $sampleRate The rate data is being sampled
      */
-    private static function _send($data, $sampleRate)
+    private function _send($data, $sampleRate)
     {
         $sampledData = array();
 
